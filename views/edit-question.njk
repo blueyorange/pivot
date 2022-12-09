@@ -3,37 +3,36 @@
 {% block head %}
     {{ super() }}
     <script type="module" src="/dist/edit-question.js"></script>
-    <link rel="stylesheet" href="/css/questions.css">
-    {% endblock %}
-    {% block content %}
-        {% include "header.njk" %}
-        <div class="container mt-3">
-            <div class="row">
-                <div class="col">
-                    <h2>Edit</h2>
-                    <form action="/questions/{{ q._id }}" method="POST">
-                        <div class="mb-3">
-                            <textarea name="body" class="form-control" id="questionTextarea" rows="10" placeholder="Question markdown">{{ q.body }}</textarea>
-                        </div>
-                        {% for choice in q.choices %}
-                            <div class="input-group mb-3">
-                                <input name="choices" type="text" class="form-control" aria-label="Text input with checkbox" value="{{ choice }}"/>
-                                <div class="input-group-text" value="">
-                                    {% if q.correct and q.correct.includes(choice) %}
-                                        <input class="form-check-input mt-0" type="radio" value="{{ choice }}" name="correct" aria-label="Checkbox for following text input" checked/>
-                                    {% else %}
-                                        <input class="form-check-input mt-0" type="radio" value="{{ choice }}" name="correct" aria-label="Checkbox for following text input"/>
-                                    {% endif %}
-                                </div>
+    {# <link rel="stylesheet" href="/css/questions.css"/> #}
+{% endblock %}
+{% block content %}
+    {% include "header.njk" %}
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col">
+                <h2>Edit</h2>
+                <form action="/questions/{{ q._id }}" method="POST">
+                    <div class="mb-3">
+                        <textarea name="body" class="form-control" id="questionTextarea" rows="10" placeholder="Question markdown">{{ q.body }}</textarea>
+                    </div>
+                    {% for choice in q.choices %}
+                        <div class="input-group mb-3">
+                            <input name="choices" type="text" class="form-control" aria-label="Text input with checkbox" value="{{ choice }}"/>
+                            <div class="input-group-text" value="">
+                                {% if q.correct and q.correct.includes(choice) %}
+                                    <input class="form-check-input mt-0" type="radio" value="{{ choice }}" name="correct" aria-label="Checkbox for following text input" checked/>
+                                {% else %}
+                                    <input class="form-check-input mt-0" type="radio" value="{{ choice }}" name="correct" aria-label="Checkbox for following text input"/>
+                                {% endif %}
                             </div>
-                        {% endfor %}
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </form>
-                </div>
-                <div class="col">
-                    <h2>Preview</h2>
-                    <div id="question-preview"></div>
-                </div>
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+            <div class="col">
+                <h2>Preview</h2>
+                <pivot-question disabled/>
             </div>
         </div>
     {% endblock %}

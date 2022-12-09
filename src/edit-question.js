@@ -1,30 +1,11 @@
-import questionTemplateFunc from "./questionTemplate.js";
-import { render } from "lit";
-
-const previewNode = document.querySelector("#question-preview");
+import PivotQuestion from "./PivotQuestion";
+customElements.define("pivot-question", PivotQuestion);
 
 function renderPreviewFromForm(form) {
   const formData = new FormData(form);
   const body = formData.get("body");
   const choices = formData.getAll("choices");
-  render(
-    questionTemplateFunc({ body, choices }, { disabled: true }),
-    previewNode
-  );
-  renderMathInElement(previewNode, {
-    delimiters: [
-      {
-        left: "$$",
-        right: "$$",
-        display: true,
-      },
-      {
-        left: "$",
-        right: "$",
-        display: false,
-      },
-    ],
-  });
+  document.querySelector("pivot-question").question = { body, choices };
 }
 
 renderPreviewFromForm(document.querySelector("form"));
