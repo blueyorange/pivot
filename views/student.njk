@@ -1,0 +1,12 @@
+{% set title="Submit Your Result!" %}
+{% extends "base.njk" %}
+{% block head %}
+    {{ super() }} <link rel="stylesheet" href="/css/poll.css"/>
+    <script src="/socket.io/socket.io.js"></script>
+    <scipt src="/js/student.js"></script>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <h1>Welcome, {{user.name.givenName}}!</h1>
+    </div>
+{% endblock %}

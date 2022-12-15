@@ -24,6 +24,7 @@ const home = require("./routes/home.js");
 const auth = require("./routes/auth.js");
 const questions = require("./routes/questions.js");
 const poll = require("./routes/poll.js");
+const student = require("./routes/student.js");
 
 // express middleware
 app.use(express.json());
@@ -85,11 +86,11 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 // routes
 app.use("/", home);
 app.use("/auth", auth);
-app.use(function (req, res, next) {
-  const { url } = req;
+app.use((req, res, next) => {
+  // const { url } = req;
   if (!req.isAuthenticated()) {
-    req.session.targetUrl = url;
-    req.session.save();
+    // req.session.targetUrl = url;
+    // req.session.save();
     return res.redirect(`/auth/login`);
   }
   res.locals.user = req.user;
@@ -99,6 +100,13 @@ app.use(function (req, res, next) {
   res.locals.joinUrl = process.env["JOIN_URI"];
   next();
 });
+app.use('/student', student);
+app.use((req, res, next) => {
+  if (req.user.role === 'student') {
+    return res.redirect('/student');
+  }
+  next();
+})
 app.use("/poll", poll);
 app.use("/questions", questions);
 app.all("*", handleInvalidUrlErrors);

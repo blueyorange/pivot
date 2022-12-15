@@ -6,7 +6,7 @@
   "scripts": {
     "build": "esbuild src/edit-question.js --bundle --minify  --outdir=/dist/js/",
     "build-dev": "esbuild src/edit-question.js --bundle --minify --sourcemap --outdir=dist/js",
-    "start": "nodemon server.js",
+    "start": "node server.js",
     "watch": "nodemon --exec 'npm run build-dev && node server.js' --ignore dist/js",
     "seed": "node ./seed/seed.js",
     "seed-users": "node ./seed/seed-users.js"
