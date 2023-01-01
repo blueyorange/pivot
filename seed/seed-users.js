@@ -17,7 +17,8 @@ async function run() {
   const result = await User.insertMany(users);
   console.log(result);
   const felix = await User.findOne({ id: '111392245021711687658' })
-  const course = await Course.create({ name: 'test', students: [felix._id] });
+  const me = await User.findOne({ id: '112970617713664374486' });
+  const course = await Course.create({ name: 'test', students: [felix._id], teacher: me._id });
   console.log(course);
 }
 

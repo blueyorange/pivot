@@ -2,8 +2,9 @@ import { marked } from "marked";
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js'
 
-export default function pivotQuestion(question, { disabled }) {
+export default function pivotQuestion(question) {
   const { body, choices } = question;
+  console.log('>>>>>>>>>', body, choices);
   const bodyHTML = marked.parse(body);
   const choicesHTML = choices.map((c) => marked.parse(c));
   const handleClick = (e) => e.target.form.querySelector('[type="submit"]').removeAttribute('disabled');

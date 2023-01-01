@@ -1,4 +1,4 @@
-import pivotQuestion from "./pivotQuestion.js";
+import pivotQuestion from "../components/pivotQuestion.js";
 import { render } from 'lit';
 
 const previewNode = document.querySelector("#question-preview");

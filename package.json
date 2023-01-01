@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "build": "esbuild src/edit-question.js --bundle --minify  --outdir=/dist/js/",
-    "build-dev": "esbuild src/edit-question.js --bundle --minify --sourcemap --outdir=dist/js",
+    "build": "esbuild src/edit-question/index.js src/teacher-poll/index.js --bundle --minify  --outdir=dist/js/",
+    "build-dev": "esbuild src/edit-question/index.js src/teacher-poll/index.js --bundle --minify --sourcemap --outdir=dist/js",
     "start": "node server.js",
     "watch": "nodemon --exec 'npm run build-dev && node server.js' --ignore dist/js",
     "seed": "node ./seed/seed.js",

@@ -1,0 +1,12 @@
+{% set title = "Teacher Poll" %}
+{% extends "base.njk" %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="/css/poll.css"/>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/teacher-poll/index.js" type="module"></script>
+{% endblock %}
+{% block content %}
+    {% include "header.njk" %}
+    <div class="container" id="app-root"></div>
+{% endblock %}

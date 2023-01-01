@@ -1,75 +1,36 @@
-{% set title="questions" %}
+{% set title = "questions" %}
 {% extends "base.njk" %}
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" href="/css/questions.css">
-    {% endblock %}
-    {% block content %}
-        {% include "header.njk" %}
-        <div class="container">
-            <div class="col">
-                <div class="row mt-3">
-                    {% include 'messages.njk' %}
-                </div>
-                <div class="row">
-                    <p>
-                        <a href="/questions/new" class="btn btn-primary" role="button">New question</a>
-                    </p>
-                </div>
-                <div class="row d-flex justify-content-around mb-3">
-                    {% for tag in allTags %}
-                        <a
+{% endblock %}
+{% block content %}
+    {% include "header.njk" %}
+    <div class="container">
+        <div class="col">
+            <div class="row">
+                <p>
+                    <a href="/questions/new" class="btn btn-primary" role="button">New question</a>
+                </p>
+            </div>
+            <div class="row d-flex justify-content-around mb-3">
+                {% for tag in allTags %}
+                    <a
                             style="width: auto;"
                             href="?{{ queryString }}{% if queryString %}&{% endif %}tags={{ tag | urlencode }}"
                             class="badge bg-{% if tag in tags %}primary{% else %}secondary{% endif %} mb-1"
                             role="button">{{ tag }}</a>
-                    {% endfor %}
-                </div>
-                <nav aria-label="pages nav">
-                    <p class="mb-3">
-                        {{ total }} results found.
-                    </p>
-                    <ul class="pagination">
-                        <li class="page-item {% if page==1 %}disabled{% endif %}">
-                            <a class="page-link" href="?{{ queryString }}&page={{ page-1 }}">Previous</a>
-                        </li>
-                        {% for p in range(startPaginate, endPaginate+1) %}
-                            <li class="page-item">
-                                <a class="page-link {% if page==p %}active{% endif %}" href="?{{ queryString }}&page={{ p }}">{{ p }}</a>
-                            </li>
-                        {% endfor %}
-                        <li class="page-item {% if endPaginate>= total %} disabled {% endif %}">
-                            <a class="page-link" href="?{{ queryString }}&page={{ page|int+1 }}">Next</a>
-                        </li>
-                    </ul>
-                </nav>
-                <div class="row d-flex justify-content-around">
-                    {% for q in questions %}
-                        <div class="question-card">
-                            <a href="/questions/{{ q._id }}">
-                                <div class="question-body">
-                                    {{ q.body | safe }}
-                                </div>
-                                <div class="question-tags">
-                                    {% for tag in q.tags %}
-                                        <a
-                                            href="?{{ queryString }}{% if queryString %}&{% endif %}tags={{ tag | urlencode }}"
-                                            class="badge bg-{% if tag in tags %}primary{% else %}secondary{% endif %} mb-1"
-                                            role="button">{{ tag }}</a>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </a>
-                </div>
+                {% endfor %}
             </div>
             <nav aria-label="pages nav">
-                <p class="mb-3"></p>
+                <p class="mb-3">
+                    {{ total }} results found.
+                    </p>
                 <ul class="pagination">
                     <li class="page-item {% if page==1 %}disabled{% endif %}">
                         <a class="page-link" href="?{{ queryString }}&page={{ page-1 }}">Previous</a>
                     </li>
-                    {% for p in range(startPaginate, endPaginate+1) %}
+                    {% for p in range(startPaginate, endPaginate + 1) %}
                         <li class="page-item">
                             <a class="page-link {% if page==p %}active{% endif %}" href="?{{ queryString }}&page={{ p }}">{{ p }}</a>
                         </li>
@@ -79,5 +40,41 @@
                     </li>
                 </ul>
             </nav>
+            <div class="row d-flex justify-content-around">
+                {% for q in questions %}
+                    <div class="question-card">
+                        <a href="/questions/{{ q._id }}">
+                            <div class="question-body">
+                                {{ q.body | safe }}
+                            </div>
+                            <div class="question-tags">
+                                {% for tag in q.tags %}
+                                    <a
+                                            href="?{{ queryString }}{% if queryString %}&{% endif %}tags={{ tag | urlencode }}"
+                                            class="badge bg-{% if tag in tags %}primary{% else %}secondary{% endif %} mb-1"
+                                            role="button">{{ tag }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </a>
+            </div>
         </div>
-    {% endblock %}
+        <nav aria-label="pages nav">
+            <p class="mb-3"></p>
+            <ul class="pagination">
+                <li class="page-item {% if page==1 %}disabled{% endif %}">
+                    <a class="page-link" href="?{{ queryString }}&page={{ page-1 }}">Previous</a>
+                </li>
+                {% for p in range(startPaginate, endPaginate + 1) %}
+                    <li class="page-item">
+                        <a class="page-link {% if page==p %}active{% endif %}" href="?{{ queryString }}&page={{ p }}">{{ p }}</a>
+                    </li>
+                {% endfor %}
+                <li class="page-item {% if endPaginate>= total %} disabled {% endif %}">
+                    <a class="page-link" href="?{{ queryString }}&page={{ page|int+1 }}">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+{% endblock %}

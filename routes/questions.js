@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Question = require("../models/question.model.js");
 const Poll = require("../models/poll.model.js");
+const Course = require('../models/course.model')
 const { marked } = require("marked");
 
 router.get("/", async (req, res) => {
@@ -90,7 +91,6 @@ router.get("/:id/edit", (req, res, next) => {
   const { id } = req.params;
   return Question.findById(id)
     .then((q) => {
-      console.log(q);
       return res.render("edit-question.njk", {
         q,
         parse: marked.parse,
@@ -99,11 +99,13 @@ router.get("/:id/edit", (req, res, next) => {
     .catch((err) => next());
 });
 
-router.get("/:id", (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
+  const courses = await Course.find({ teacher: req.user._id });
+  console.log(req.user._id);
   return Question.findById(id)
     .then((q) => {
-      return res.render("question.njk", { q, parse: marked.parse });
+      return res.render("question.njk", { q, parse: marked.parse, courses });
     })
     .catch((err) => next(err));
 });
@@ -121,13 +123,15 @@ router.get("/:id/delete", (req, res, next) => {
     });
 });
 
-router.get("/:id/poll", async (req, res, next) => {
-  const { id } = req.params;
-  const joinCode = Math.random().toString(32).slice(-4);
+router.get("/:qid/poll/", async (req, res, next) => {
+  const { coursename } = req.query;
+  const { qid } = req.params;
+  let poll;
   try {
-    const question = await Question.findById(id);
-    const poll = await Poll.create({
-      joinCode,
+    const course = await Course.findOne({ name: coursename });
+    const question = await Question.findById(qid);
+    poll = await Poll.create({
+      course: course._id,
       question,
       teacher: req.user._id,
     });
@@ -135,7 +139,7 @@ router.get("/:id/poll", async (req, res, next) => {
   } catch (err) {
     return next(err);
   }
-  return res.redirect(`/poll/teacher/${joinCode}`);
+  return res.redirect(`/poll/${poll._id}`);
 });
 
 module.exports = router;

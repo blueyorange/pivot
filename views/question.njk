@@ -1,4 +1,4 @@
-{% set title="questions" %}
+{% set title = "questions" %}
 {% extends "base.njk" %}
 {% block content %}
     {% include "header.njk" %}
@@ -10,7 +10,16 @@
             <div class="d-flex justify-content-around">
                 <a href="/questions/{{ q.id }}/edit" class="btn btn-primary" role="button">Edit</a>
                 <a href="/questions/{{ q.id }}/delete" class="btn btn-danger" role="button">Delete</a>
-                <a href="/questions/{{ q.id }}/poll" class="btn btn-primary" role="button">Live poll</a>
+                <div class="dropdown">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">Live poll</button>
+                    <ul class="dropdown-menu">
+                        {% for course in courses %}
+                            <li>
+                                <a class="dropdown-item" href="/questions/{{ q.id }}/poll/?coursename={{ course.name }}">{{course.name}}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="row">
